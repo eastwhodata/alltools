@@ -1,0 +1,36 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin-top: 80px;
+  background: linear-gradient(120deg, #f9f9f9, #eef2f3);
+}
+
+.site-header {
+  height: 70px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+}
+
+.logo {
+  height: 40px;
+}
+
+.project-title {
+  font-weight: bold;
+}
+
+.site-footer {
+  background: #f8f8f8;
+  border-top: 1px solid #ddd;
+}
+
+.tool-card {
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.tool-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
