@@ -1,4 +1,11 @@
-// ===== Category + Tools Data (complete 186 tools in 11 categories) =====
+// ===== Slugify tool name for file paths =====
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-')   // replace spaces/symbols with -
+    .replace(/^-+|-+$/g,'');       // trim -
+}
+
+// ===== Category + Tools Data =====
 const siteCategories = {
   "pdf-doc": {
     title: "📄 PDF & Document Tools",
@@ -132,50 +139,90 @@ const siteCategories = {
 };
 
 
-// ===== Rendering =====
+// ===== Render UI =====
 window.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("toolsGrid");
   const toolDropdown = document.getElementById("toolSelect");
 
   if (!grid) return;
 
+  let accordionId = 0;
+
   for (let key in siteCategories) {
+    accordionId++;
     const cat = siteCategories[key];
+    const collapseId = `collapse-${accordionId}`;
 
-    // Category card container
+    // Category wrapper (accordion)
     const catDiv = document.createElement("div");
-    catDiv.className = "category-card";
+    catDiv.className = "category-card mb-3";
 
-    // Category title
     catDiv.innerHTML = `
-      <div class="category-heading">
+      <div class="category-heading" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" role="button">
         <i class="bi ${cat.icon}"></i> ${cat.title}
       </div>
-      <div class="row category-tools"></div>
+      <div id="${collapseId}" class="collapse category-body" data-bs-parent="#toolsGrid">
+        <div class="row category-tools"></div>
+      </div>
     `;
 
     const toolsRow = catDiv.querySelector(".category-tools");
 
-    // Tools grid
+    // Create tool cards
     cat.tools.forEach(tool => {
+      const slug = slugify(tool);
       const col = document.createElement("div");
-      col.className = "col-lg-3 col-md-4 col-sm-6 mb-4";
+      col.className = "col-lg-3 col-md-4 col-sm-6 mb-3";
+
       col.innerHTML = `
-        <div class="tool-card text-center" data-category="${key}">
-          <i class="bi bi-tools"></i>
-          <h6 class="mt-2">${tool}</h6>
-        </div>`;
+        <a href="tools/${key}/${slug}.html" class="tool-link">
+          <div class="tool-card text-center" data-category="${key}">
+            <i class="bi bi-tools"></i>
+            <h6 class="mt-2">${tool}</h6>
+          </div>
+        </a>
+      `;
       toolsRow.appendChild(col);
 
-      // Populate tool dropdown
-      if(toolDropdown) {
+      // Populate dropdown
+      if (toolDropdown) {
         const opt = document.createElement("option");
-        opt.value = tool;
+        opt.value = slug;
         opt.textContent = tool;
         toolDropdown.appendChild(opt);
       }
     });
 
     grid.appendChild(catDiv);
+  }
+
+  // Force accordion (close others when one opens)
+  const collapses = document.querySelectorAll('.collapse');
+  collapses.forEach(el => {
+    el.addEventListener('show.bs.collapse', () => {
+      collapses.forEach(other => {
+        if (other !== el) {
+          const bsCollapse = bootstrap.Collapse.getInstance(other);
+          if (bsCollapse) bsCollapse.hide();
+        }
+      });
+    });
+  });
+});
+
+
+// ===== Theme Switcher =====
+document.addEventListener("DOMContentLoaded", () => {
+  const themeSelector = document.getElementById("themeSelector");
+  const savedTheme = localStorage.getItem("theme") || "theme-default";
+  document.body.className = savedTheme;
+  if(themeSelector) themeSelector.value = savedTheme.replace("theme-","");
+
+  if (themeSelector) {
+    themeSelector.addEventListener("change", () => {
+      const theme = "theme-" + themeSelector.value;
+      document.body.className = theme;
+      localStorage.setItem("theme", theme);
+    });
   }
 });
