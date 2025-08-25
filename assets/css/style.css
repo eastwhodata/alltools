@@ -1,8 +1,8 @@
 /* ===== Base Styles ===== */
 body {
   font-family: 'Segoe UI', sans-serif;
-  margin-top: 80px;
-  transition: background 0.3s, color 0.3s;
+  margin-top: 90px; /* header height + gap */
+  transition: background 0.4s, color 0.4s;
 }
 
 .logo {
@@ -21,56 +21,88 @@ body {
 
 .site-footer {
   border-top: 1px solid #ddd;
+  background: #f8f8f8;
+  margin-top: 50px;
 }
 
-.tools-section {
-  margin-top: 40px;
-}
-
-/* ===== Category Card ===== */
+/* ===== Category Accordion ===== */
 .category-card {
-  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  padding: 20px;
-  margin-bottom: 30px;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  background: #ffffff;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease;
 }
 .category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
 }
 
-/* Category Title */
 .category-heading {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 15px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: rgba(0,0,0,0.05);
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background 0.2s;
 }
-.category-heading i {
-  margin-right: 10px;
-  font-size: 1.8rem;
+.category-heading:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Tool Card ===== */
+/* Category Title Icon */
+.category-heading i {
+  margin-right: 10px;
+  font-size: 1.6rem;
+}
+
+/* ===== Tool Cards ===== */
+.tool-link {
+  text-decoration: none;
+  color: inherit;
+}
 .tool-card {
   border-radius: 10px;
   background: #fff;
   padding: 15px;
   height: 100%;
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
 }
 .tool-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
 }
 .tool-card i {
   font-size: 2rem;
   display: block;
   margin-bottom: 10px;
 }
+
+/* ===== Theme Handling (light variations here, full in themes.css) ===== */
+body.theme-default {
+  background: linear-gradient(120deg,#f9f9f9,#eef2f3);
+  color: #333;
+}
+body.theme-dark {
+  background: #121212; color: #f1f1f1;
+}
+body.theme-dark .category-card,
+body.theme-dark .tool-card { background: #1f1f1f; color: #f1f1f1; }
+body.theme-gradient {
+  background: linear-gradient(to right,#6a11cb,#2575fc);
+  color: #fff;
+}
+body.theme-gradient .category-card,
+body.theme-gradient .tool-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+}
+body.theme-blue {
+  background: #e6f0fa; color: #003366;
+}
+body.theme-green { background: #e9f7ef; color: #064420; }
